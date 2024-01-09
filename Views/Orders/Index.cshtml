@@ -1,0 +1,83 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var Orders = (List<Orders>)ViewData["Orders"];
+    var Pizza = (List<Pizza>)ViewData["Pizza"];
+    var count = ViewData["count"];
+    var sum = ViewData["sum"];
+
+
+}
+<html>
+<head>
+    <style>
+        
+        .card #body {
+            overflow: hidden;
+        }
+
+        .card {
+            background-image: url('/images/bg_1.jpg');
+            display: flex;
+            margin: 10px;
+        }
+
+        body {
+           background-image: url('/images/summery1.jpg');
+           background-size:cover;
+        }
+        .btn {
+            width: 200px;
+            border-radius: 20px;
+            color: aqua;
+            font-weight: bold;
+            border: 2px solid #1efffe;
+            transition: 0.5s ease-in-out;
+            margin-left: 50px;
+        }
+            .btn:hover {
+                color: white;
+                box-shadow: 0 0 20px 0 #1efffe;
+                background: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+            }
+
+    </style>
+
+</head>
+<body>
+   
+    <br />
+    <br />
+    <br />
+    <h3 style="color: #1efffe">HIIIII!  @TempData.Peek("UserName") </h3>
+    <p style="color: #1efffe">This is your order summery----))</p>
+
+    <h5 style="color: #1efffe">The Pizza you are selected are:</h5>
+    <p style="color: #1efffe">_____________________________________________________________</p>
+    @foreach (var item in Pizza)
+    {
+
+        <p style="color: #1efffe">
+            @item.Name
+        </p>
+    }
+    <p style="color: #1efffe">_____________________________________________________________</p>
+
+    <h6 style="color: #1efffe">
+        Total number of Items you selected:  @count
+        <br /><br />
+        Total Price :                        @sum
+        <br /><br />
+        Delivery Address:                    @TempData.Peek("Address")
+
+    </h6>
+    <br /><br />
+          <div class="form-group">
+              <a href="@Url.Action("Index","Pizza")"><button class="btn">Thank You</button></a>
+              <a href="@Url.Action("Index","Users")"><button class="btn">Log Out</button></a>
+              <
+          </div>
+
+</body>
+    </html>

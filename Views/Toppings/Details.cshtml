@@ -1,0 +1,139 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var DictPizza = (Dictionary<string, Cart>)ViewData["Pizza"];
+    var DictToppings = (Dictionary<string, Toppings>)ViewData["Toppings"];
+    var total = 0;
+
+}
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+     
+        body {
+            background-image: url('/images/cart1.jpg');
+            background-size: cover;
+        }
+
+        .btn {
+            width: 200px;
+            border-radius: 20px;
+            color: aqua;
+            font-weight: bold;
+            border: 2px solid #1efffe;
+            transition: 0.5s ease-in-out;
+            margin-left: 50px;
+        }
+
+        #btn1,#btn2 {
+            background-color: transparent;
+            color: aqua;
+            font-weight: bold;
+            border: 2px solid #1efffe;
+            transition: 0.5s ease-in-out;
+            margin-left: 50px;
+        }
+
+            #btn1:hover {
+                color: white;
+                box-shadow: 0 0 20px 0 #1efffe;
+                background: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+            }
+             #btn2:hover {
+                color: white;
+                box-shadow: 0 0 20px 0 #1efffe;
+                background: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+            }
+
+        .btn:hover {
+            color: white;
+            box-shadow: 0 0 20px 0 #1efffe;
+            background: linear-gradient(to right top, #d16ba5, #c777b9, #ba83ca, #aa8fd8, #9a9ae1, #8aa7ec, #79b3f4, #69bff8, #52cffe, #41dfff, #46eefa, #5ffbf1);
+        }
+
+        .table {
+            color: aqua;
+        }
+    </style>
+</head>
+<body>
+
+    @if (TempData["Added"] != null)
+    {
+        <script>
+            alert("Ädded To Cart Successfully");
+        </script>
+    }
+
+
+    <br>
+    <br />
+    <br />
+
+    <h3 style="color:aqua"> @TempData.Peek("UserName")!! YOUR CART </h3>
+
+    <table class="table table-striped table-dark" style="text-align:center;color:aqua">
+        <thead>
+            <tr>
+                <th>Pizza Id</th>
+                <th>Pizza Name</th>
+                <th>Toppings ID</th>
+                <th>Toppings Name</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in DictPizza.Keys)
+            {
+                <tr>
+                    <td>
+                        @DictPizza[item].Pizza.ID
+                    </td>
+                    <td>
+                        @DictPizza[item].Pizza.Name
+                    </td>
+                    @if (DictToppings != null)
+                    {
+                        if (DictToppings.ContainsKey(item))
+                        {
+                            <td>@DictToppings[item].ID</td>
+                            <td>@DictToppings[item].Name</td>
+                            <td>@((@Convert.ToInt32(DictPizza[item].Pizza.Price)+@Convert.ToInt32(DictToppings[item].Price))*Convert.ToInt32(DictPizza[item].Qty))</td>
+                            //@(total+=(@Convert.ToInt32(DictPizza[item].Pizza.Price) + @Convert.ToInt32(DictToppings[item].Price)) * Convert.ToInt32(DictPizza[item].Qty));
+                        }
+                        else
+                        {
+                            <td colspan="2"> - </td>
+                            <td>@(@Convert.ToInt32(DictPizza[item].Pizza.Price)*@Convert.ToInt32(DictPizza[item].Qty))</td>
+                            //@(total += (@Convert.ToInt32(DictPizza[item].Pizza.Price) * @Convert.ToInt32(DictPizza[item].Qty));
+                        }
+
+                    }
+                    else
+                    {
+                        <td colspan="2"> - </td>
+                        <td>@(@Convert.ToInt32(DictPizza[item].Pizza.Price)*@Convert.ToInt32(DictPizza[item].Qty))</td>
+                    }
+                    <td>@DictPizza[item].Qty</td>
+                    <td><a href="@Url.Action("Delete","Toppings",new {ID=@item})"><button class="btn" id="btn1" style="width:100px">Delete</button></a></td>
+                    <td><a href="@Url.Action("Add","Toppings",new {ID=@item})"><button class="btn" id="btn2"style="width:100px">Add</button></a></td>
+                </tr>
+
+            }
+            <tr>
+                <td colspan="2">Grand Total</td>
+                <td colspan="5" style="text-align:right">
+                    @ViewData["Price"]
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="@Url.Action("Index","Pizza")"><button class="btn ">Go Back</button></a>
+    <a href="@Url.Action("Index","Orders")"><button class="btn ">Confirm Order</button></a>
+</body>
+</html>
